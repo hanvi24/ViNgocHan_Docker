@@ -12,6 +12,15 @@ jobs:
       - name: Bước 1 - Tải code từ GitHub về máy ảo
         uses: actions/checkout@v4
 
+        - name: Bước 1.5 - Thiết lập Java và Build file JAR
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21' # Hân dùng Java 21 đúng không?
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn clean package -DskipTests # Lệnh này sẽ tạo ra thư mục /target và file .jar
+
       - name: Bước 2 - Đăng nhập vào Docker Hub
         uses: docker/login-action@v3
         with:
