@@ -1,19 +1,29 @@
-name: Thử nghiệm đọc file README  #Tên quy trình
+name: CI/CD Deploy to Docker Hub
 
 on:
   push:
-    branches: [ "main" ]  #Chạy khi có code mới đẩy lên nhánh main
+    branches: [ "main" ]  # Tự động chạy khi bạn đẩy code lên nhánh main
 
 jobs:
-  thuc_hanh_doc_file:
-    runs-on: ubuntu-latest  #Mượn máy ảo Ubuntu của GitHub để chạy
+  build-and-push:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Bước 1 - Xin chào
-        run: echo "Hello HUTECH!"  #Lệnh in ra màn hình
+      - name: Bước 1 - Tải code từ GitHub về máy ảo
+        uses: actions/checkout@v4
 
-      - name: Bước 2 - Tải code
-        uses: actions/checkout@v4  #Robot tự động copy code vào máy ảo
+      - name: Bước 2 - Đăng nhập vào Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Bước 3 - Đọc file
-        run: cat README.md  #Mở nội dung file README.md để xem
+      - name: Bước 3 - Build và Push Image lên Docker Hub
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # Bạn thay 'vingochan' bằng tên thật và 'spring-app' bằng tên dự án bạn muốn
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/ngochan-0882-spring-docker:latest
+            ${{ secrets.DOCKER_USERNAME }}/ngochan-0882-spring-docker:${{ github.sha }}
