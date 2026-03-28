@@ -36,7 +36,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/repository-docker:latest
 
-           - name: Triển khai lên DevOps Classroom
+      - name: Triển khai lên DevOps Classroom
         run: |
           REPO="repository/docker"
           CONTAINER_PORT=80
