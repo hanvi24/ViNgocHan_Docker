@@ -38,7 +38,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/ngochan-0882-spring-docker:latest
             ${{ secrets.DOCKER_USERNAME }}/ngochan-0882-spring-docker:${{ github.sha }}
-            - name: Triển khai lên DevOps Classroom
+      - name: Triển khai lên DevOps Classroom
         run: |
           REPO="repository/docker"
           CONTAINER_PORT=80
